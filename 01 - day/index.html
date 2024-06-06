@@ -58,25 +58,40 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
-     function playSound(e) {
-        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
-        if (!audio) //Para a funçao nao rodar para sempre!
-        return;
+  <script>
+    // Função para reproduzir o som quando uma tecla é pressionada
+    function playSound(e) {
+        // Seleciona o elemento <audio> que possui o atributo data-key igual ao código da tecla pressionada (e.keyCode)
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        // Seleciona o elemento que possui a classe 'key' e o atributo data-key igual ao código da tecla pressionada
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+        // Se não houver <audio> correspondente à tecla pressionada, a função retorna sem fazer nada
+        if (!audio) return;
+
+        // Reinicia o tempo de reprodução do áudio para 0, permitindo que o áudio seja tocado novamente rapidamente se a tecla for pressionada repetidamente
         audio.currentTime = 0;
+        // Toca o áudio selecionado
         audio.play();
-        key.classList.add('playing')
+
+        // Adiciona a classe 'playing' ao elemento da tecla pressionada para aplicar um estilo visual
+        key.classList.add('playing');
     };
+
+    // Função para remover a transição visual após a animação
     function removeTransition(e) {
+        // Se a propriedade que disparou o evento de transição não for 'transform', a função retorna sem fazer nada
         if (e.propertyName !== 'transform') return;
-        this.classList.remove('playing')
+        // Remove a classe 'playing' do elemento que disparou o evento (geralmente uma tecla)
+        this.classList.remove('playing');
     }
-    
+
+    // Seleciona todos os elementos com a classe 'key' e adiciona um listener para o evento 'transitionend' em cada um
     const keys = document.querySelectorAll('.key');
     keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-    window.addEventListener('keydown', playSound);    
 
+    // Adiciona um listener para o evento 'keydown' (quando uma tecla é pressionada) na janela (global)
+    window.addEventListener('keydown', playSound);
 </script>
 
 
