@@ -70,20 +70,27 @@
 </style>
    
 <script>
+  // Função para atualizar o relógio com base no tempo atual
   function setDate() {
-      const now = new Date();
-      const seconds = now.getSeconds();
-      const secondsDegrees = ((seconds / 60) * 360) + 90;
-      document.querySelector('#secondHand').style.transform = `rotate(${secondsDegrees}deg)`;
+    const now = new Date(); // Obtém a data e hora atuais
+    
+    // Calcula rotação do ponteiro dos segundos
+    const seconds = now.getSeconds();
+    const secondsDegrees = ((seconds / 60) * 360) + 90; // Converte segundos em graus
+    document.querySelector('#secondHand').style.transform = `rotate(${secondsDegrees}deg)`; // Aplica a rotação
 
-      const mins = now.getMinutes();
-      const minsDegrees = ((mins / 60) * 360) + 90;
-      document.querySelector('#minsHand').style.transform = `rotate(${minsDegrees}deg)`;
+    // Calcula rotação do ponteiro dos minutos
+    const mins = now.getMinutes();
+    const minsDegrees = ((mins / 60) * 360) + 90; // Converte minutos em graus
+    document.querySelector('#minsHand').style.transform = `rotate(${minsDegrees}deg)`; // Aplica a rotação
 
-      const hour = now.getHours(); // Use getHours() to get the current hour
-      const hourDegrees = ((hour / 12) * 360) + 90; // Use hour instead of mins
-      document.querySelector('#hourHand').style.transform = `rotate(${hourDegrees}deg)`;
+    // Calcula rotação do ponteiro da hora
+    const hour = now.getHours();
+    const hourDegrees = ((hour / 12) * 360) + 90; // Converte hora em graus
+    document.querySelector('#hourHand').style.transform = `rotate(${hourDegrees}deg)`; // Aplica a rotação
   }
+
+  // Chama a função setDate a cada segundo para atualizar o relógio em tempo real
   setInterval(setDate, 1000);
 </script>
 
