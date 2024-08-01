@@ -1,79 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Array Cardio 💪💪</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
-  <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
-  <script>
-    // ## Array Cardio Day 2
-
-    const people = [
-      { name: 'Wes', year: 1988 },
-      { name: 'Kait', year: 1986 },
-      { name: 'Irv', year: 1970 },
-      { name: 'Lux', year: 2015 }
-    ];
-
-    const comments = [
-      { text: 'Love this!', id: 523423 },
-      { text: 'Super good', id: 823423 },
-      { text: 'You are the best', id: 2039842 },
-      { text: 'Ramen is my fav food ever', id: 123523 },
-      { text: 'Nice Nice Nice!', id: 542328 }
-    ];
-
-    // Some and Every Checks
-    // Array.prototype.some() // is at least one person 19 or older?
-    //Pelo menos uma pessoa tem 19 anos ou mais?
-
-/*const isAdult = people.some(function(person) {
-    const currentYear = (new Date()).getFullYear();
-    if(currentYear - person.year >= 19) {
-        return true;
-    }
-} );
-console.log({isAdult})*/
-
-const isAdult = people.some(person => ((new Date()).getFullYear()) - person.year >= 19 );
-console.log({isAdult})
-
-
-    // Array.prototype.every() // is everyone 19 or older?
-    //todo mundo tem 19 anos ou mais?
-    
-const allAdult = people.every(person => ((new Date()).getFullYear()) - person.year >= 19 );
-console.log({allAdult})    
-
-    // Array.prototype.find()
-    // Find is like filter, but instead returns just the one you are looking for
-    //Find é como um filtro, mas retorna apenas aquele que você está procurando
-    // find the comment with the ID of 823423
-/*const comment = comments.find(function(comment){
-    if(comment.id === 823423) {
-        return true;
-    }
-});
-console.log(comment)   */
-
-const comment = comments.find(comment => comment.id === 823423);
-console.log(comment) ;
-
-
-
-    // Array.prototype.findIndex()
-    // Find the comment with this ID
-    // delete the comment with the ID of 823423
-const index = comments.find(comment => comment.id === 823423);
-console.table(index);
-
-const newComments = [
-    ...comments.splice(0, index),
-    ...comments.slice(index + 1)
+  <head>
+    <meta charset="UTF-8" />
+    <title>Array Cardio 💪💪</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
+    <script>
+     // Array de objetos "people", cada um contendo o nome e o ano de nascimento.
+const people = [
+  { name: "Wes", year: 1988 },
+  { name: "Kait", year: 1986 },
+  { name: "Irv", year: 1970 },
+  { name: "Lux", year: 2015 },
 ];
-console.table(newComments);
-  </script>
-</body>
+
+// Array de objetos "comments", cada um contendo um texto e um ID.
+const comments = [
+  { text: "Love this!", id: 523423 },
+  { text: "Super good", id: 823423 },
+  { text: "You are the best", id: 2039842 },
+  { text: "Ramen is my fav food ever", id: 123523 },
+  { text: "Nice Nice Nice!", id: 542328 },
+];
+
+// Verifica se pelo menos uma pessoa no array "people" é adulta (19 anos ou mais).
+// A função some() retorna true se pelo menos um elemento satisfaz a condição.
+const isAdult = people.some(
+  (person) => new Date().getFullYear() - person.year >= 19
+);
+console.log({ isAdult }); // Exibe no console um objeto com a propriedade isAdult.
+
+// Verifica se todas as pessoas no array "people" são adultas (19 anos ou mais).
+// A função every() retorna true se todos os elementos satisfazem a condição.
+const allAdult = people.every(
+  (person) => new Date().getFullYear() - person.year >= 19
+);
+console.log({ allAdult }); // Exibe no console um objeto com a propriedade allAdult.
+
+// Encontra o comentário no array "comments" com o ID igual a 823423.
+// A função find() retorna o primeiro elemento que satisfaz a condição.
+const comment = comments.find((comment) => comment.id === 823423);
+console.log(comment); // Exibe o objeto do comentário encontrado no console.
+
+// Encontra o índice do comentário no array "comments" com o ID igual a 823423.
+// Isso parece um erro, pois está usando find() em vez de findIndex().
+// find() retorna o próprio objeto, não o índice.
+const index = comments.findIndex((comment) => comment.id === 823423);
+console.table(index); // Exibe o índice no console em formato de tabela.
+
+// Cria um novo array "newComments" que é uma cópia do array original "comments",
+// mas sem o comentário encontrado no índice calculado acima.
+const newComments = [
+  ...comments.slice(0, index),  // Inclui todos os elementos antes do índice encontrado.
+  ...comments.slice(index + 1), // Inclui todos os elementos após o índice encontrado.
+];
+console.table(newComments); // Exibe o novo array "newComments" no console em formato de tabela.
+
+    </script>
+  </body>
 </html>
