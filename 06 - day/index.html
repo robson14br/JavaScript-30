@@ -18,47 +18,71 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+// Cria um array vazio chamado "cities" que irá armazenar os dados das cidades.
 const cities = [];
 
+// Faz uma requisição para o endpoint fornecido (URL da API).
 fetch(endpoint)
+  // Converte a resposta do fetch para JSON.
   .then(blob => blob.json())
-  .then(data => cities.push(...data))
+  // Adiciona os dados da resposta ao array "cities". O spread operator (...) 
+  // espalha os elementos do array recebido para dentro do array "cities".
+  .then(data => cities.push(...data));
 
-function findMatches(wordToMatch,  cities){
-  return cities.filter(place =>{ 
+// Função para encontrar correspondências de uma palavra dentro do array de cidades.
+function findMatches(wordToMatch, cities) {
+  // Filtra o array "cities" para encontrar cidades ou estados que correspondam à palavra digitada.
+  return cities.filter(place => { 
+    // Cria uma expressão regular (regex) para buscar a palavra digitada,
+    // independentemente de maiúsculas ou minúsculas (g e i).
     const regex = new RegExp(wordToMatch, 'gi');
-    return place.city.match(regex) || place.state.match(regex)
-   } );
-  }  
-
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    // Verifica se o nome da cidade ou do estado contém a palavra digitada.
+    return place.city.match(regex) || place.state.match(regex);
+  });
 }
 
-  function displayMatches() {
-    const matchArray = findMatches(this.value, cities);
-    const html = matchArray.map(place => {
-      const regex = new RegExp(this.value, 'gi');
-      const cityName = place.city.replace(regex, `<span class="h1">${this.value}</span>`);
-      const stateName = place.state.replace(regex, `<span class="h1">${this.value}</span>`);
-      return `
+// Função para formatar números com vírgulas (ex: 1000 -> 1,000).
+function numberWithCommas(x) {
+  // Converte o número para string e usa regex para inserir uma vírgula
+  // a cada três dígitos antes do ponto decimal (se houver).
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// Função que exibe as correspondências encontradas na interface do usuário.
+function displayMatches() {
+  // Encontra as correspondências entre a palavra digitada (this.value)
+  // e as cidades armazenadas no array "cities".
+  const matchArray = findMatches(this.value, cities);
+
+  // Cria o HTML a ser exibido, destacando a parte da palavra digitada nas correspondências.
+  const html = matchArray.map(place => {
+    // Cria uma regex para destacar a palavra digitada na exibição.
+    const regex = new RegExp(this.value, 'gi');
+    // Substitui a parte correspondente da cidade e do estado por um span estilizado.
+    const cityName = place.city.replace(regex, `<span class="h1">${this.value}</span>`);
+    const stateName = place.state.replace(regex, `<span class="h1">${this.value}</span>`);
+    
+    // Retorna um template literal que cria um item de lista (li) para cada cidade encontrada.
+    return `
       <li>
         <span class='name'>${cityName}, ${stateName}</span>
         <span class='population'>${numberWithCommas(place.population)}</span>
       </li>
+    `;
+  }).join(''); // O join('') junta os itens do array em uma única string.
+  
 
-        `
-    }).join('');
-    suggestions.innerHTML= html;
-  }
+  suggestions.innerHTML = html;
+}
 
+// Seleciona o campo de busca e o elemento de sugestões na página.
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
 
-  const searchInput = document.querySelector('.search');
-  const suggestions = document.querySelector('.suggestions');
-
-  searchInput.addEventListener('change', displayMatches)
-  searchInput.addEventListener('keyup', displayMatches )
-
+// Adiciona event listeners ao campo de busca para disparar a função "displayMatches"
+// quando o valor do campo muda ("change") ou quando uma tecla é pressionada ("keyup").
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
 
 </script>
 </body>
