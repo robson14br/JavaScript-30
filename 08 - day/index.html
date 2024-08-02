@@ -8,6 +8,7 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+    // Seleciona o elemento <canvas> com o id "draw".
     const canvas = document.querySelector('#draw');
     const ctx = canvas.getContext('2d')
     canvas.width = window.innerWidth
@@ -24,25 +25,32 @@
     let hue = 0;
     let direction = true;
 
-    
+    // Função que desenha no canvas, é chamada sempre que o mouse é movido.
     function draw(e) {
+        // Se o usuário não estiver desenhando, a função não faz nada.
         if(!isDrawing) return;
         console.log(e);
         ctx.strokeStyle = `hsl(${hue}, 100%, 50%)` 
         
+         // Começa um novo caminho para desenhar.
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
+        // Cria uma linha até a posição atual do mouse.
         ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
+        // Atualiza a última posição do mouse para a posição atual.
         [lastX, lastY] = [e.offsetX, e.offsetY];
         
         hue++;
         if (hue >= 360){
             hue = 0;
         }
+        // Verifica se a largura da linha chegou ao máximo (500) ou mínimo (1).
+        // Se sim, inverte a direção de mudança da largura.
         if(ctx.lineWidth >= 500 || ctx.lineWidth <= 1) {
             direction = !direction;
         }
+         // Aumenta ou diminui a largura da linha dependendo da direção.
         if(direction){
             ctx.lineWidth++;
 
@@ -50,16 +58,18 @@
             ctx.lineWidth--;
         }
     }
-
+    // Inicia o desenho quando o mouse é pressionado.
     canvas.addEventListener('mousedown', (e) => {
         isDrawing = true;
         [lastX, lastY] = [e.offsetX, e.offsetY];
 
     });
         
-
+    // Desenha conforme o mouse é movido.
     canvas.addEventListener('mousemove', draw)
+    // Para o desenho quando o mouse é solto
     canvas.addEventListener('mouseup', () => isDrawing = false);
+    // Também para o desenho se o mouse sair do canvas.
     canvas.addEventListener('mouseout', () => isDrawing = false);
 
 
