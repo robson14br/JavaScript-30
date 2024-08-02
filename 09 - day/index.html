@@ -18,6 +18,7 @@
       p.style.fontSize = '50px';
     }
 
+    // Diferentes tipos de logs no console
     // Regular
     console.log('hello');
 
@@ -54,17 +55,17 @@
     })
 
 
-    // counting
+    // counting (contagem de ocorrências no console).
     console.count('Robson')
     console.count('Robson')
     console.count('Robson')
     console.count('Robson')
     console.count('carlos')
     console.count('Robson')
-    // timing
+    // timing (medição de tempo de execução).
     console.time('fetching data')
-    fetch('https://api.github.com/users/robson14br')
-     .then(data => data.json())
+    fetch('https://api.github.com/users/robson14br')//Inicia a medição de tempo para a tarefa "fetching data".
+     .then(data => data.json()) // Converte a resposta para JSON.
      .then(data => {
         console.timeEnd('fetching data');
         console.log(data)
