@@ -97,10 +97,13 @@
   </div>
 
 <script>
+  // Seleciona todos os checkboxes dentro do elemento com a classe 'inbox'
     const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
 
+    // Variável para armazenar o último checkbox que foi clicado
     let lastChecked
 
+    // Função que será chamada quando um checkbox for clicado
     function handleCheck(e) {
         let inBetween = false
         if(e.shiftKey && this.checked) {
@@ -110,6 +113,7 @@
                     inBetween = !inBetween;
                     console.log('Starting to check')
                 }
+                // Marca todos os checkboxes que estão entre o primeiro e o último clicado
                 if(inBetween){
                     checkbox.checked = true;
                 }
@@ -118,8 +122,10 @@
             });
 
         }
+        // Atualiza o último checkbox clicado para uso futuro
         lastChecked = this
     }
+    // Adiciona o evento de clique a cada checkbox que chama a função handleCheck
     checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
 
 </script>
