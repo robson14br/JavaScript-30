@@ -44,40 +44,53 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
-      var timeout;
-      return function() {
-        var context = this, args = arguments;
-        var later = function() {
-          timeout = null;
-          if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-      };
+    // Função de debounce para limitar a frequência de execução de funções
+function debounce(func, wait = 20, immediate = true) {
+  let timeout;
+  return function() {
+    const context = this;
+    const args = arguments;
+
+    const later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
     };
 
-    const sliderImages = document.querySelectorAll('.slide-in');
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
 
-    function checkSlide() {
-      sliderImages.forEach(sliderImage => {
-        // half way through the image
-        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
-        // bottom of the image
-        const imageBottom = sliderImage.offsetTop + sliderImage.height;
-        const isHalfShown = slideInAt > sliderImage.offsetTop;
-        const isNotScrolledPast = window.scrollY < imageBottom;
-        if (isHalfShown && isNotScrolledPast) {
-          sliderImage.classList.add('active');
-        } else {
-          sliderImage.classList.remove('active');
-        }
-      });
+    if (callNow) func.apply(context, args);
+  };
+}
+
+// Seleciona todas as imagens com a classe 'slide-in'
+const sliderImages = document.querySelectorAll('.slide-in');
+
+// Função para verificar se as imagens devem entrar na tela
+function checkSlide() {
+  sliderImages.forEach(sliderImage => {
+    // Calcula a posição em que a imagem deve começar a aparecer
+    const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+    // Calcula a posição do fim da imagem
+    const imageBottom = sliderImage.offsetTop + sliderImage.height;
+
+    // Verifica se a imagem está visível parcialmente
+    const isHalfShown = slideInAt > sliderImage.offsetTop;
+    const isNotScrolledPast = window.scrollY < imageBottom;
+
+    // Adiciona ou remove a classe 'active' com base na visibilidade da imagem
+    if (isHalfShown && isNotScrolledPast) {
+      sliderImage.classList.add('active');
+    } else {
+      sliderImage.classList.remove('active');
     }
+  });
+}
 
-    window.addEventListener('scroll', debounce(checkSlide));
+// Adiciona um ouvinte de evento de rolagem à janela com debounce para otimizar o desempenho
+window.addEventListener('scroll', debounce(checkSlide));
+
 
   </script>
 
