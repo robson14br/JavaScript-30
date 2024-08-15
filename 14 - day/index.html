@@ -8,88 +8,69 @@
 <body>
 
   <script>
-    // start with strings, numbers and booleans
-    //começa com strings, números e booleanos
-   /* let name = 'robs'
-    let name2 = name
-    console.log(name, name2)
-    name = 'raires'
-    console.log(name, name2)*/
+    // Início do script JavaScript
 
-    // Let's say we have an array
-    // Digamos que temos um array
+    // Exemplo com strings, números e booleanos:
+    // Declaramos uma variável 'name' com valor 'robs'
+    // let name = 'robs';
+    // Em seguida, copiamos o valor de 'name' para 'name2'
+    // let name2 = name;
+    // Mostramos no console os valores de 'name' e 'name2'
+    // console.log(name, name2);
+    // Atualizamos o valor de 'name' para 'raires'
+    // name = 'raires';
+    // Agora mostramos os valores novamente para ver a diferença
+    // console.log(name, name2);
+
+    // Vamos trabalhar com arrays agora
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
-     
 
-    // and we want to make a copy of it.
-    // e queremos fazer uma cópia dele.
+    // Queremos fazer uma cópia do array 'players'
     const team = players;
-    
-   console.log(players, team)
 
-    // You might think we can just do something like this:
-    // Você pode pensar que podemos fazer algo assim:
-    team[3] = 'Lux'
+    // Exibimos no console os valores de 'players' e 'team'
+    console.log(players, team);
 
-    // however what happens when we update that array?
-    // entretanto, o que acontece quando atualizamos esse array?
+    // Podemos pensar que a atribuição direta cria uma cópia do array
+    // Atualizamos o último elemento de 'team' para 'Lux'
+    team[3] = 'Lux';
 
-    // now here is the problem!
-    // Agora, aqui está o problema!
-    
+    // Porém, ao atualizar 'team', o array original 'players' também é alterado
+    // Isto ocorre porque 'team' não é uma cópia, mas sim uma referência ao mesmo array na memória
 
-    // oh no - we have edited the original array too!
-    // ah, não - editamos o array original também!
+    // Para resolver isso, precisamos fazer uma cópia real do array
+    // Podemos usar o método 'slice()' para criar uma cópia do array
+    const team2 = players.slice();
 
-    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
-    // Por que? É porque é uma referência de array, não uma cópia de array. Ambos apontam para o mesmo array!
-
-    // So, how do we fix this? We take a copy instead!
-    // Então, como podemos consertar isso? Em vez disso, pegamos uma cópia!
-    const team2 = players.slice()
-
-    // one way
-    // Mão Única
-
-    // or create a new array and concat the old one in
-    // ou crie um novo array e concatene o antigo
+    // Outra forma é criar um novo array e concatenar o antigo
     const team3 = [].concat(players);
 
-    // or use the new ES6 Spread
-    // ou use o novo ES6 Spread
+    // Ou podemos usar o novo operador Spread (ES6) para criar uma cópia
     const team4 = [...players];
 
+    // Agora, se atualizarmos algum dos novos arrays, o array original 'players' não será alterado
 
-    // now when we update it, the original one isn't changed
-    // agora quando atualizamos, o original não é alterado
-
-    // The same thing goes for objects, let's say we have a person object
-    // O mesmo vale para objetos, digamos que temos um objeto pessoa
-
-    // with Objects
-    // com objetos
+    // O mesmo conceito se aplica para objetos
     const person = {
       name: 'Wes Bos',
       age: 80
     };
 
-    // and think we make a copy:
-    // e acho que fazemos uma cópia:
+    // Aqui, 'captain' é uma referência ao objeto 'person'
     const captain = person;
+    // Ao adicionar uma nova propriedade 'number' em 'captain', estamos também alterando o objeto 'person'
     captain.number = 99;
 
-    // how do we take a copy instead?
-    // como podemos tirar uma cópia?
+    // Para fazer uma cópia real do objeto, podemos usar 'Object.assign'
+    // Isso cria um novo objeto e copia todas as propriedades de 'person', além de adicionar/alterar as propriedades especificadas
     const cop2 = Object.assign({}, person, {number: 99, age: 12});
-    console.log(cap2);
+    console.log(cop2);
 
-    // We will hopefully soon see the object ...spread
-    // Esperamos ver em breve o objeto ...se espalhar
+    // Outra forma de copiar objetos é utilizando o operador Spread (ES6)
     const cap3 = {...person};
 
-    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
-    // Coisas a serem observadas - isso tem apenas 1 nível de profundidade - tanto para Arrays quanto para Objetos. lodash tem um método cloneDeep, mas você deve pensar duas vezes antes de usá-lo.
-
+    // Importante notar: As cópias realizadas por essas técnicas são superficiais, ou seja, elas só copiam o primeiro nível de propriedades.
+    // Para cópias profundas (deep clone), onde todos os níveis do objeto/array são copiados, pode-se utilizar uma biblioteca como lodash com o método cloneDeep, mas é preciso ter cautela ao usá-lo.
   </script>
 
 </body>
