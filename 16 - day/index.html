@@ -36,32 +36,46 @@
   </style>
 
 <script>
-  const hero = document.querySelector('.hero');
-  const text = hero.querySelector('h1');
-  const walk = 500; // 500px
+  // Seleciona o elemento com a classe 'hero' (a área onde o efeito será aplicado)
+const hero = document.querySelector('.hero');
 
-  function shadow(e) {
-    const { offsetWidth: width, offsetHeight: height } = hero;
-    let { offsetX: x, offsetY: y } = e;
+// Seleciona o elemento <h1> dentro do elemento 'hero' (o texto que terá a sombra)
+const text = hero.querySelector('h1');
 
-    if (this !== e.target) {
-      x = x + e.target.offsetLeft;
-      y = y + e.target.offsetTop;
-    }
+// Define a distância máxima que a sombra pode "andar" em pixels
+const walk = 500;
 
-    const xWalk = Math.round((x / width * walk) - (walk / 2));
-    const yWalk = Math.round((y / height * walk) - (walk / 2));
+// Função que aplica o efeito de sombra no texto baseado na posição do mouse
+function shadow(e) {
+  // Obtém a largura e altura do elemento 'hero'
+  const { offsetWidth: width, offsetHeight: height } = hero;
 
-    text.style.textShadow = `
-      ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7),
-      ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
-      ${yWalk}px ${xWalk * -1}px 0 rgba(0,255,0,0.7),
-      ${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.7)
-    `;
+  // Obtém a posição do mouse dentro do elemento 'hero'
+  let { offsetX: x, offsetY: y } = e;
 
+  // Ajusta a posição do mouse caso o evento seja disparado por um elemento filho de 'hero'
+  if (this !== e.target) {
+    // Soma as coordenadas do elemento filho para corrigir a posição
+    x = x + e.target.offsetLeft;
+    y = y + e.target.offsetTop;
   }
 
-  hero.addEventListener('mousemove', shadow);
+  // Calcula a quantidade de deslocamento da sombra (x e y) baseado na posição do mouse
+  // O valor de xWalk e yWalk é proporcional à posição do mouse dentro de 'hero'
+  const xWalk = Math.round((x / width * walk) - (walk / 2));
+  const yWalk = Math.round((y / height * walk) - (walk / 2));
+
+  // Aplica o estilo de sombra ao texto usando a posição calculada do mouse
+  text.style.textShadow = `
+    ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7), // Sombra rosa
+    ${xWalk * -1}px ${yWalk}px 0 rgba(0,255,255,0.7), // Sombra ciano
+    ${yWalk}px ${xWalk * -1}px 0 rgba(0,255,0,0.7), // Sombra verde
+    ${yWalk * -1}px ${xWalk}px 0 rgba(0,0,255,0.7) // Sombra azul
+  `;
+}
+
+// Adiciona o evento 'mousemove' ao elemento 'hero' para executar a função shadow sempre que o mouse se mover
+hero.addEventListener('mousemove', shadow);
 </script>
 </body>
 </html>
