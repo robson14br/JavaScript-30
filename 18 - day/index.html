@@ -184,25 +184,35 @@
   </ul>
 
 <script>
-    const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
-    seconds = timeNodes
-    .map(node => node.dataset.time)
-    .map(timeCode => {
-        const [mins, secs] = timeCode.split(':').map(parseFloat);
-        return(mins * 60) + secs;
-        console.log(mins, secs);
-        
-    })
-        .reduce((total, vidSeconds) => total + vidSeconds);
-       
-        let secondsLeft = seconds;
-        const hours = Math.floor(secondsLeft / 3600);
-        secondsLeft = secondsLeft % 3600;
-        
-        const min = Math.floor(secondsLeft / 60);
-        secondsLeft = secondsLeft % 60;
+ // Seleciona todos os elementos do DOM que têm o atributo 'data-time' e os converte em um array
+const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
 
-        console.log(hours, mins, secondsLeft);
+// Converte cada valor de 'data-time' em segundos e soma todos esses valores
+seconds = timeNodes
+    .map(node => node.dataset.time)  // Mapeia cada elemento para o valor do seu atributo 'data-time'
+    .map(timeCode => {  // Para cada 'timeCode' (ex: "5:32"), converte para segundos
+        const [mins, secs] = timeCode.split(':').map(parseFloat); // Divide 'timeCode' em minutos e segundos e converte para números
+        return (mins * 60) + secs; // Converte minutos para segundos e soma aos segundos
+    })
+    .reduce((total, vidSeconds) => total + vidSeconds); // Soma todos os segundos para obter o total
+
+// Agora temos o total de segundos em 'seconds'
+let secondsLeft = seconds;
+
+// Calcula o número de horas inteiras no total de segundos
+const hours = Math.floor(secondsLeft / 3600);
+
+// Calcula quantos segundos sobraram após retirar as horas inteiras
+secondsLeft = secondsLeft % 3600;
+
+// Calcula o número de minutos inteiros nos segundos restantes
+const min = Math.floor(secondsLeft / 60);
+
+// Calcula quantos segundos sobraram após retirar os minutos inteiros
+secondsLeft = secondsLeft % 60;
+
+// Exibe no console o total de horas, minutos e segundos restantes
+console.log(hours, min, secondsLeft);
 
 
 
