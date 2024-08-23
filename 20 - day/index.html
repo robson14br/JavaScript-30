@@ -10,37 +10,56 @@
   <div class="words" contenteditable>
   </div>
 
-<script>
-  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  const recognition = new SpeechRecognition();
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
-
-  let p = document.createElement('p');
-  const words = document.querySelector('.words');
-  words.appendChild(p);
-
-  recognition.addEventListener('result', e => {
-    const transcript = Array.from(e.results)
-      .map(result => result[0])
-      .map(result => result.transcript)
-      .join('');
-
+  <script>
+    // Define o objeto de reconhecimento de fala, verificando se a API de reconhecimento de fala está disponível no navegador.
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+    // Cria uma nova instância do reconhecimento de fala.
+    const recognition = new SpeechRecognition();
+    
+    // Configura o reconhecimento de fala para gerar resultados intermediários (antes do usuário parar de falar).
+    recognition.interimResults = true;
+    
+    // Define o idioma para o reconhecimento de fala como inglês americano.
+    recognition.lang = 'en-US';
+  
+    // Cria um novo elemento <p> para inserir o texto transcrito.
+    let p = document.createElement('p');
+    
+    // Seleciona o elemento HTML que contém a classe 'words' para adicionar o texto transcrito.
+    const words = document.querySelector('.words');
+    
+    // Adiciona o novo parágrafo criado dentro do elemento 'words'.
+    words.appendChild(p);
+  
+    // Adiciona um ouvinte de eventos para capturar os resultados do reconhecimento de fala.
+    recognition.addEventListener('result', e => {
+      // Converte os resultados da fala em uma matriz, mapeia para obter o texto transcrito e junta tudo em uma string.
+      const transcript = Array.from(e.results)
+        .map(result => result[0])  // Pega o primeiro (mais confiante) resultado da matriz.
+        .map(result => result.transcript)  // Pega a transcrição do resultado.
+        .join('');  // Junta tudo em uma string.
+  
+      // Substitui palavras inapropriadas por um emoji de cocô.
       const poopScript = transcript.replace(/poop|poo|shit|dump/gi, '💩');
+      
+      // Define o conteúdo do parágrafo atual com o texto filtrado.
       p.textContent = poopScript;
-
+  
+      // Se o resultado for final (o usuário parou de falar), cria um novo parágrafo para a próxima frase.
       if (e.results[0].isFinal) {
         p = document.createElement('p');
         words.appendChild(p);
       }
-  });
-
-  recognition.addEventListener('end', recognition.start);
-
-  recognition.start();
-
-</script>
+    });
+  
+    // Quando o reconhecimento de fala terminar, ele reinicia automaticamente.
+    recognition.addEventListener('end', recognition.start);
+  
+    // Inicia o reconhecimento de fala.
+    recognition.start();
+  
+  </script>
 
 
   <style>
