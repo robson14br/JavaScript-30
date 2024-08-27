@@ -59,17 +59,33 @@
     }
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
-  <script>
-    const arrow = document.querySelector('.arrow');
-    const speed = document.querySelector('.speed-value');
+<script>
+  // Seleciona o elemento HTML com a classe 'arrow' e armazena na variável 'arrow'
+  const arrow = document.querySelector('.arrow');
+  
+  // Seleciona o elemento HTML com a classe 'speed-value' e armazena na variável 'speed'
+  const speed = document.querySelector('.speed-value');
 
-    navigator.geolocation.watchPosition((data) => {
-      console.log(data);
-      speed.textContent = data.coords.speed;
-      arrow.style.transform = `rotate(${data.coords.heading}deg)`;
-    }, (err) => {
-      console.error(err);
-    });
-  </script>
+  // Usa a API de Geolocalização para monitorar a posição do dispositivo em tempo real
+  navigator.geolocation.watchPosition((data) => {
+    // Função de callback que é chamada sempre que a posição do dispositivo muda
+    
+    // Exibe os dados da posição no console (para depuração)
+    console.log(data);
+
+    // Atualiza o conteúdo do elemento 'speed' com a velocidade atual do dispositivo (em metros por segundo)
+    speed.textContent = data.coords.speed;
+
+    // Gira o elemento 'arrow' com base na direção/heading atual do dispositivo (em graus)
+    arrow.style.transform = `rotate(${data.coords.heading}deg)`;
+
+  }, (err) => {
+    // Função de callback chamada se ocorrer um erro ao tentar obter a posição
+    
+    // Exibe o erro no console (para depuração)
+    console.error(err);
+  });
+</script>
+
 </body>
 </html>
