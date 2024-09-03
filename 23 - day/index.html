@@ -29,47 +29,87 @@
 
     </div>
 
-<script>
-  const msg = new SpeechSynthesisUtterance();
-  let voices = [];
-  const voicesDropdown = document.querySelector('[name="voice"]');
-  const options = document.querySelectorAll('[type="range"], [name="text"]');
-  const speakButton = document.querySelector('#speak');
-  const stopButton = document.querySelector('#stop');
-  msg.text = document.querySelector('[name="text"]').value;
-
-  function populateVoices() {
-    voices = this.getVoices();
-    voicesDropdown.innerHTML = voices
-    .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`)
-    .join('')
-}
-function setVoice() {
-    msg.voice = voices.find(voice => voice.name === this.value);
-    toggle();
-}
-
-function toggle(startOver = true){
-    speechSynthesis.cancel();
-    if(startOver){
-    speechSynthesis.speak(msg);
-    }
-}
-
-function setOption(){
-    console.log(this.name, this.value);
-    msg[this.name] = this.value;
-    toggle()
-}  
-
-
-    speechSynthesis.addEventListener('voiceschanged', populateVoices);
-    voicesDropdown.addEventListener('change', setVoice);
-    options.forEach(option => option.addEventListener('change', setOption));
-    speakButton.addEventListener('click', toggle);
-    stopButton.addEventListener('click', () => toggle(false));
+    <script>
+      // Cria uma nova instância de SpeechSynthesisUtterance, que representa uma solicitação de fala.
+      const msg = new SpeechSynthesisUtterance();
+      
+      // Inicializa um array para armazenar as diferentes vozes disponíveis.
+      let voices = [];
+      
+      // Seleciona o dropdown (menu suspenso) para escolher a voz.
+      const voicesDropdown = document.querySelector('[name="voice"]');
+      
+      // Seleciona todos os elementos de entrada do tipo "range" (deslizantes) e o campo de texto.
+      const options = document.querySelectorAll('[type="range"], [name="text"]');
+      
+      // Seleciona o botão "Falar".
+      const speakButton = document.querySelector('#speak');
+      
+      // Seleciona o botão "Parar".
+      const stopButton = document.querySelector('#stop');
+      
+      // Define o texto da mensagem para o valor do campo de texto.
+      msg.text = document.querySelector('[name="text"]').value;
     
-</script>
+      // Função para popular o dropdown com as vozes disponíveis.
+      function populateVoices() {
+        // Obtém a lista de vozes disponíveis no navegador.
+        voices = this.getVoices();
+        
+        // Atualiza o conteúdo do dropdown com as vozes disponíveis.
+        voicesDropdown.innerHTML = voices
+          .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`)
+          .join(''); // Cria opções no formato HTML e junta tudo em uma string.
+      }
+    
+      // Função para definir a voz selecionada pelo usuário.
+      function setVoice() {
+        // Encontra a voz selecionada no array de vozes e a define na mensagem.
+        msg.voice = voices.find(voice => voice.name === this.value);
+        
+        // Inicia a fala com a nova voz selecionada.
+        toggle();
+      }
+    
+      // Função para controlar a reprodução da fala.
+      function toggle(startOver = true) {
+        // Cancela qualquer fala em andamento.
+        speechSynthesis.cancel();
+        
+        // Se `startOver` for verdadeiro, inicia a fala novamente.
+        if(startOver) {
+          speechSynthesis.speak(msg);
+        }
+      }
+    
+      // Função para ajustar as opções de fala (como velocidade e tom).
+      function setOption() {
+        // Exibe no console o nome da opção e o valor atual.
+        console.log(this.name, this.value);
+        
+        // Ajusta a propriedade da mensagem com o valor selecionado.
+        msg[this.name] = this.value;
+        
+        // Reinicia a fala para aplicar as mudanças.
+        toggle();
+      }  
+    
+      // Adiciona um evento para atualizar as vozes quando elas mudarem (por exemplo, quando o navegador carregar).
+      speechSynthesis.addEventListener('voiceschanged', populateVoices);
+      
+      // Adiciona um evento para atualizar a voz selecionada quando o usuário mudar a opção no dropdown.
+      voicesDropdown.addEventListener('change', setVoice);
+      
+      // Adiciona eventos para cada opção de configuração (range sliders e campo de texto) para aplicar mudanças.
+      options.forEach(option => option.addEventListener('change', setOption));
+      
+      // Adiciona um evento para o botão "Falar" iniciar a fala.
+      speakButton.addEventListener('click', toggle);
+      
+      // Adiciona um evento para o botão "Parar" interromper a fala.
+      stopButton.addEventListener('click', () => toggle(false));
+    </script>
+    
 
 </body>
 </html>
