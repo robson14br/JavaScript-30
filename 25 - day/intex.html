@@ -1,68 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Understanding JavaScript's Capture</title>
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body class="bod">
-
-  <div class="one">
-    <div class="two">
-      <div class="three">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Understanding JavaScript's Capture</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
       </div>
     </div>
-  </div>
 
-<style>
-  html {
-    box-sizing: border-box;
-  }
+    <style>
+      html {
+        box-sizing: border-box;
+      }
 
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
 
-  div {
-    width: 100%;
-    padding: 100px;
-  }
+      div {
+        width: 100%;
+        padding: 100px;
+      }
 
-  .one {
-    background: thistle;
-  }
+      .one {
+        background: thistle;
+      }
 
-  .two {
-    background: mistyrose;
-  }
+      .two {
+        background: mistyrose;
+      }
 
-  .three {
-    background: coral;
-  }
-</style>
+      .three {
+        background: coral;
+      }
+    </style>
 
-<button></button>
-<script>
-    const divs = document.querySelectorAll('div');
-    const button = document.querySelector('button');
-  
-    function logText(e) {
-      console.log(this.classList.value);
-      // e.stopPropagation(); // stop bubbling!
-      // console.log(this);
-    }
-  
-    divs.forEach(div => div.addEventListener('click', logText, {
-      capture: false,
-      once: true
-    }));
-  
-    button.addEventListener('click', () => {
-      console.log('Click!!!');
-    }, {
-      once: true
-    });
-  
-  </script>
-</body>
+    <button></button>
+    <script>
+      // Seleciona todos os elementos <div> da página e armazena na variável 'divs'
+      const divs = document.querySelectorAll("div");
+
+      // Seleciona o primeiro botão <button> da página e armazena na variável 'button'
+      const button = document.querySelector("button");
+
+      // Função chamada ao clicar em um dos elementos <div>
+      function logText(e) {
+        // Exibe no console o valor da classe do elemento clicado
+        console.log(this.classList.value);
+
+        // 'e.stopPropagation()' impediria o evento de se propagar para outros elementos pais (propagação de eventos - bubbling)
+        // e.stopPropagation(); // Parar a propagação do evento
+
+        // Poderíamos usar 'console.log(this)' para exibir o próprio elemento <div> clicado
+        // console.log(this);
+      }
+
+      // Para cada <div>, adiciona um listener que chama 'logText' ao clicar
+      divs.forEach((div) =>
+        div.addEventListener("click", logText, {
+          // 'capture: false' significa que o evento será tratado durante a fase de "bubbling" (de dentro para fora)
+          capture: false,
+          // 'once: true' garante que o evento será tratado apenas uma vez, removendo o listener após o primeiro clique
+          once: true,
+        })
+      );
+
+      // Adiciona um listener de clique ao botão <button>
+      button.addEventListener(
+        "click",
+        () => {
+          // Exibe "Click!!!" no console ao clicar no botão
+          console.log("Click!!!");
+        },
+        {
+          // O evento será tratado apenas uma vez devido a 'once: true'
+          once: true,
+        }
+      );
+    </script>
+  </body>
 </html>
