@@ -222,39 +222,68 @@
 </style>
 
 <script>
-    const triggers = document.querySelectorAll('.cool > li');
-    const background  = document.querySelector('.dropdownBackground');
-    const nav  = document.querySelector('.top');
-  
-    function handleEnter() {
-      this.classList.add('trigger-enter');
-      setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
-      background.classList.add('open');
-  
-      const dropdown = this.querySelector('.dropdown');
-      const dropdownCoords = dropdown.getBoundingClientRect();
-      const navCoords = nav.getBoundingClientRect();
-  
-      const coords = {
-        height: dropdownCoords.height,
-        width: dropdownCoords.width,
-        top: dropdownCoords.top - navCoords.top,
-        left: dropdownCoords.left - navCoords.left
-      };
-  
-      background.style.setProperty('width', `${coords.width}px`);
-      background.style.setProperty('height', `${coords.height}px`);
-      background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
-    }
-  
-    function handleLeave() {
-      this.classList.remove('trigger-enter', 'trigger-enter-active');
-      background.classList.remove('open');
-    }
-  
-    triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
-    triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
-  </script>
+  // Seleciona todos os elementos <li> que são filhos diretos de um elemento com a classe 'cool'
+  const triggers = document.querySelectorAll('.cool > li');
+
+  // Seleciona o fundo (background) do dropdown com a classe 'dropdownBackground'
+  const background  = document.querySelector('.dropdownBackground');
+
+  // Seleciona o elemento de navegação superior (provavelmente um <nav>) com a classe 'top'
+  const nav  = document.querySelector('.top');
+
+  // Função que é chamada quando o mouse entra em um dos itens da lista (li)
+  function handleEnter() {
+    // Adiciona a classe 'trigger-enter' ao item atual
+    this.classList.add('trigger-enter');
+
+    // Usa um temporizador para garantir que a classe 'trigger-enter-active' só será adicionada
+    // após 150ms, garantindo que a animação de transição seja mais suave
+    setTimeout(() => 
+      // Verifica se o item ainda tem a classe 'trigger-enter' antes de adicionar 'trigger-enter-active'
+      this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 
+      150
+    );
+
+    // Adiciona a classe 'open' ao background do dropdown, tornando-o visível
+    background.classList.add('open');
+
+    // Seleciona o dropdown dentro do item atual
+    const dropdown = this.querySelector('.dropdown');
+    // Obtém as coordenadas e dimensões do dropdown em relação à janela de visualização
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    // Obtém as coordenadas e dimensões da barra de navegação
+    const navCoords = nav.getBoundingClientRect();
+
+    // Calcula a posição e dimensões do dropdown em relação à barra de navegação
+    const coords = {
+      height: dropdownCoords.height,
+      width: dropdownCoords.width,
+      top: dropdownCoords.top - navCoords.top,
+      left: dropdownCoords.left - navCoords.left
+    };
+
+    // Define a largura, altura e posição do background do dropdown de acordo com as dimensões e
+    // posição calculadas acima, ajustando o background visualmente para cobrir o dropdown
+    background.style.setProperty('width', `${coords.width}px`);
+    background.style.setProperty('height', `${coords.height}px`);
+    background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
+  }
+
+  // Função que é chamada quando o mouse sai de um dos itens da lista (li)
+  function handleLeave() {
+    // Remove as classes de estilo que foram aplicadas ao item quando o mouse entrou
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    // Remove a classe 'open' do background, escondendo-o
+    background.classList.remove('open');
+  }
+
+  // Adiciona o evento 'mouseenter' a todos os itens da lista para disparar a função handleEnter
+  triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
+
+  // Adiciona o evento 'mouseleave' a todos os itens da lista para disparar a função handleLeave
+  triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
+</script>
+
 
 </body>
 </html>
