@@ -36,37 +36,70 @@
   </div>
 
   <script>
+    // Seleciona o elemento com a classe 'items', que provavelmente é o container do slider
     const slider = document.querySelector('.items');
+
+    // Variável para controlar se o botão do mouse está pressionado
     let isDown = false;
+
+    // Variável para armazenar a posição inicial do cursor no eixo X ao clicar
     let startX;
+
+    // Variável para armazenar a posição inicial do scroll do slider
     let scrollLeft;
-  
+
+    // Evento disparado ao pressionar o botão do mouse no slider
     slider.addEventListener('mousedown', (e) => {
-      isDown = true;
-      slider.classList.add('active');
-      startX = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
+        // Indica que o botão do mouse está pressionado
+        isDown = true;
+        
+        // Adiciona a classe 'active' ao slider, podendo ser usada para estilização
+        slider.classList.add('active');
+
+        // Calcula a posição inicial do cursor em relação à borda esquerda do slider
+        startX = e.pageX - slider.offsetLeft;
+
+        // Armazena a posição atual do scroll do slider
+        scrollLeft = slider.scrollLeft;
     });
-  
+
+    // Evento disparado quando o mouse sai da área do slider
     slider.addEventListener('mouseleave', () => {
-      isDown = false;
-      slider.classList.remove('active');
+        // Indica que o botão do mouse não está mais pressionado
+        isDown = false;
+
+        // Remove a classe 'active' do slider
+        slider.classList.remove('active');
     });
-  
+
+    // Evento disparado quando o botão do mouse é solto
     slider.addEventListener('mouseup', () => {
-      isDown = false;
-      slider.classList.remove('active');
+        // Indica que o botão do mouse não está mais pressionado
+        isDown = false;
+
+        // Remove a classe 'active' do slider
+        slider.classList.remove('active');
     });
-  
+
+    // Evento disparado ao mover o mouse sobre o slider
     slider.addEventListener('mousemove', (e) => {
-      if (!isDown) return;  // stop the fn from running
-      e.preventDefault();
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - startX) * 3;
-      slider.scrollLeft = scrollLeft - walk;
+        // Se o botão do mouse não estiver pressionado, encerra a função
+        if (!isDown) return;
+
+        // Previne o comportamento padrão do navegador
+        e.preventDefault();
+
+        // Calcula a posição atual do cursor em relação à borda esquerda do slider
+        const x = e.pageX - slider.offsetLeft;
+
+        // Calcula a distância que o cursor percorreu desde o ponto inicial
+        const walk = (x - startX) * 3; // Multiplica por 3 para aumentar a velocidade do scroll
+
+        // Atualiza a posição do scroll do slider
+        slider.scrollLeft = scrollLeft - walk;
     });
-  
-  </script>
+</script>
+
 
   </body>
 </html>
