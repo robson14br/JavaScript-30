@@ -1,39 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Video Speed Scrubber</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Speed Scrubber</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
     <div class="wrapper">
-        <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
-        <div class="speed">
-          <div class="speed-bar">1×</div>
-        </div>
+      <video
+        class="flex"
+        width="765"
+        height="430"
+        src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+        loop
+        controls
+      ></video>
+      <div class="speed">
+        <div class="speed-bar">1×</div>
       </div>
-    
+    </div>
+
     <script>
-      const speed = document.querySelector('.speed');
-      const bar = speed.querySelector('.speed-bar');
-      const video = document.querySelector('.flex');
-    
+      // Seleciona o elemento com a classe 'speed', que provavelmente é um controle de velocidade para o vídeo
+      const speed = document.querySelector(".speed");
+
+      // Seleciona o elemento 'speed-bar' dentro do controle de velocidade, que será visualmente ajustado
+      const bar = speed.querySelector(".speed-bar");
+
+      // Seleciona o vídeo com a classe 'flex', que terá a taxa de reprodução alterada
+      const video = document.querySelector(".flex");
+
+      // Função para lidar com o movimento do mouse sobre o controle de velocidade
       function handleMove(e) {
-          const y = e.pageY - this.offsetTop;
-          const percent = y / this.offsetHeight;
-          const min = 0.4;
-          const max = 4;
-          const height = Math.round(percent * 100) + '%';
-          const playbackRate = percent * (max - min) + min;
-          bar.style.height = height;
-          bar.textContent = playbackRate.toFixed(2) + '×';
-          video.playbackRate = playbackRate;
-        }
-    
-      speed.addEventListener('mousemove', handleMove);
-    
+        // Calcula a posição vertical do cursor em relação ao topo do elemento 'speed'
+        const y = e.pageY - this.offsetTop;
+
+        // Calcula a porcentagem da altura do controle onde o mouse está
+        const percent = y / this.offsetHeight;
+
+        // Define os limites mínimo e máximo da taxa de reprodução do vídeo
+        const min = 0.4;
+        const max = 4;
+
+        // Calcula a altura da barra de velocidade em porcentagem, baseada na posição do cursor
+        const height = Math.round(percent * 100) + "%";
+
+        // Calcula a taxa de reprodução com base na porcentagem da altura entre o mínimo e o máximo
+        const playbackRate = percent * (max - min) + min;
+
+        // Ajusta a altura visual da barra de velocidade
+        bar.style.height = height;
+
+        // Exibe a taxa de reprodução atual na barra de velocidade
+        bar.textContent = playbackRate.toFixed(2) + "×"; // Mostra a taxa com duas casas decimais e o símbolo '×'
+
+        // Atualiza a taxa de reprodução do vídeo
+        video.playbackRate = playbackRate;
+      }
+
+      // Adiciona um evento de movimento do mouse para atualizar a velocidade conforme o usuário interage
+      speed.addEventListener("mousemove", handleMove);
     </script>
-    </body>
-    </html>
+  </body>
+</html>
