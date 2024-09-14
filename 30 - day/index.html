@@ -1,90 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Whack A Mole!</title>
-  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="https://fav.farm/✅" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Whack A Mole!</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/✅" />
+  </head>
+  <body>
+    <h1>
+      Whack-a-mole! <span class="score">0</span>
 
-  <h1>Whack-a-mole! <span class="score">0</span>
-    
-    <button class="start" onClick="startGame()">Start!</button>
-</h1>
-  
-  <div class="game">
-    <div class="hole hole1">
-      <div class="mole"></div>
+      <button class="start" onClick="startGame()">Start!</button>
+    </h1>
+
+    <div class="game">
+      <div class="hole hole1">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole2">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole3">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole4">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole5">
+        <div class="mole"></div>
+      </div>
+      <div class="hole hole6">
+        <div class="mole"></div>
+      </div>
     </div>
-    <div class="hole hole2">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole3">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole4">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole5">
-      <div class="mole"></div>
-    </div>
-    <div class="hole hole6">
-      <div class="mole"></div>
-    </div>
-  </div>
 
-<script>
-  const holes = document.querySelectorAll('.hole');
-  const scoreBoard = document.querySelector('.score');
-  const moles = document.querySelectorAll('.mole');
-  let lastHole;
-  let timeUp = false;
-  let score = 0;
+    <script>
+      // Seleciona todos os elementos com a classe 'hole' (buracos) e 'mole' (topeiras), e o placar
+      const holes = document.querySelectorAll(".hole"); // Seleciona todos os buracos onde as topeiras vão aparecer
+      const scoreBoard = document.querySelector(".score"); // Seleciona o elemento do placar para mostrar a pontuação
+      const moles = document.querySelectorAll(".mole"); // Seleciona todas as topeiras (elementos clicáveis)
+      let lastHole; // Variável para armazenar o último buraco utilizado, para evitar repetição imediata
+      let timeUp = false; // Variável para controlar o término do jogo (True quando o tempo acabar)
+      let score = 0; // Variável para armazenar a pontuação do jogador
 
-  function randomTime(min, max) {
-    return Math.round(Math.random() * (max - min) + min);
-  }
+      // Função que retorna um tempo aleatório entre um mínimo e um máximo
+      function randomTime(min, max) {
+        return Math.round(Math.random() * (max - min) + min); // Gera um tempo aleatório entre os valores 'min' e 'max'
+      }
 
-  function randomHole(holes) {
-    const idx = Math.floor(Math.random() * holes.length);
-    const hole = holes[idx];
-    if (hole === lastHole) {
-      console.log('Ah nah thats the same one bud');
-      return randomHole(holes);
-    }
-    lastHole = hole;
-    return hole;
-  }
+      // Função que escolhe aleatoriamente um buraco, garantindo que não seja o mesmo da rodada anterior
+      function randomHole(holes) {
+        const idx = Math.floor(Math.random() * holes.length); // Escolhe um índice aleatório da lista de buracos
+        const hole = holes[idx]; // Seleciona o buraco correspondente ao índice
+        if (hole === lastHole) {
+          // Verifica se o buraco selecionado é o mesmo da rodada anterior
+          console.log("Ah nah thats the same one bud"); // Mensagem no console para indicar que o mesmo buraco foi selecionado
+          return randomHole(holes); // Chama novamente a função para selecionar um novo buraco
+        }
+        lastHole = hole; // Atualiza o último buraco com o buraco atual
+        return hole; // Retorna o buraco selecionado
+      }
 
-  function peep() {
-    const time = randomTime(200, 1000);
-    const hole = randomHole(holes);
-    hole.classList.add('up');
-    setTimeout(() => {
-      hole.classList.remove('up');
-      if (!timeUp) peep();
-    }, time);
-  }
+      // Função que faz a topeira aparecer em um buraco por um tempo aleatório
+      function peep() {
+        const time = randomTime(200, 1000); // Define um tempo aleatório entre 200ms e 1000ms para a topeira ficar "para cima"
+        const hole = randomHole(holes); // Seleciona aleatoriamente um buraco para a topeira aparecer
+        hole.classList.add("up"); // Adiciona a classe 'up' ao buraco, fazendo a topeira aparecer
+        setTimeout(() => {
+          hole.classList.remove("up"); // Remove a classe 'up' após o tempo aleatório, fazendo a topeira "descer"
+          if (!timeUp) peep(); // Se o tempo do jogo ainda não acabou, chama 'peep()' novamente para continuar o jogo
+        }, time);
+      }
 
-  function startGame() {
-    scoreBoard.textContent = 0;
-    timeUp = false;
-    score = 0;
-    peep();
-    setTimeout(() => timeUp = true, 10000)
-  }
+      // Função para iniciar o jogo
+      function startGame() {
+        scoreBoard.textContent = 0; // Reseta o placar para 0 no início do jogo
+        timeUp = false; // Reseta a variável que controla o término do jogo
+        score = 0; // Reseta a pontuação
+        peep(); // Chama a função para começar o ciclo de topeiras aparecendo
+        setTimeout(() => (timeUp = true), 10000); // Define um limite de tempo de 10 segundos para o jogo
+      }
 
-  function bonk(e) {
-    if(!e.isTrusted) return; // cheater!
-    score++;
-    this.parentNode.classList.remove('up');
-    scoreBoard.textContent = score;
-  }
+      // Função que é chamada quando o jogador "bonka" (clica) em uma topeira
+      function bonk(e) {
+        if (!e.isTrusted) return; // Verifica se o clique é confiável (para evitar trapaças com eventos falsos)
+        score++; // Incrementa a pontuação
+        this.parentNode.classList.remove("up"); // Faz a topeira "descer" ao ser clicada
+        scoreBoard.textContent = score; // Atualiza o placar com a nova pontuação
+      }
 
-  moles.forEach(mole => mole.addEventListener('click', bonk));
-
-</script>
-</body>
+      // Adiciona um evento de clique em cada topeira para permitir que o jogador as "bonke"
+      moles.forEach((mole) => mole.addEventListener("click", bonk));
+    </script>
+  </body>
 </html>
